@@ -133,6 +133,7 @@ body {
 }
 #menu-tile span, #specials-tile span, #map-tile span {
 	position: absolute;
+	opacity: 0.8;
 	bottom: 0;
 	right: 0;
 	width: 100%;
