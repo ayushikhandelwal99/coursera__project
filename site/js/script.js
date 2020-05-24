@@ -12,14 +12,14 @@ $(function () {
 
 (function (global) {
 	var dc = {};
-	var homeHtml = "snippets/home-snippet.html";
+	var homeHtml = "Snippets/home-snippet.html";
 	var allCategoriesUrl =
 		"http://davids-restaurant.herokuapp.com/categories.json";
-	var categoriesTitleHtml = "snippets/categories-title-snippet.html";
-	var categoryHtml = "snippets/category-snippet.html";
+	var categoriesTitleHtml = "Snippets/categories-title-snippet.html";
+	var categoryHtml = "Snippets/category-snippet.html";
 	var menuItemsUrl = "http://davids-restaurant.herokuapp.com/menu_items.json?category=";
-	var menuItemsTitleHtml = "snippets/menu-items-title.html";
-	var menuItemHtml = "snippets/menu-item.html";
+	var menuItemsTitleHtml = "Snippets/menu-items-title.html";
+	var menuItemHtml = "Snippets/menu-item.html";
 
 	var insertHtml = function (selector, html) {
 		var targetElem = document.querySelector(selector);
