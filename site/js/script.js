@@ -4,15 +4,12 @@ $(function () {
 		if (screenWidth < 768) {
 			$("#collapsable-nav").collapse('hide');
 		}
-	});
-	$("#navbarToggle").click(function (event) {
-    $(event.target).focus();
   });
 });
 
 (function (global) {
 	var dc = {};
-	var homeHtml = "Snippets/home-snippet.html";
+	var homeHtmlUrl = "Snippets/home-snippet.html";
 	var allCategoriesUrl =
 		"https://davids-restaurant.herokuapp.com/categories.json";
 	var categoriesTitleHtml = "Snippets/categories-title-snippet.html";
@@ -54,13 +51,36 @@ $(function () {
 	document.addEventListener("DOMContentLoaded", function (event) {
 	showLoading("#main-content");
 	$ajaxUtils.sendGetRequest(
-			homeHtml,
-			function (responseText) {
-				document.querySelector("#main-content")
-				.innerHTML = responseText;
-			},
-			false);
+		allCategoriesUrl,
+  		buildAndShowHomeHTML, 
+  		true);
 	});
+function buildAndShowHomeHTML (categories) {
+
+  // Load home snippet page
+  $ajaxUtils.sendGetRequest(
+    homeHtmlUrl,
+    function (homeHtml) {
+
+      	var chosenCategoryShortName =  chooseRandomCategory(categories).short_name;
+
+      // Retrieve single category snippet
+      	chosenCategoryShortName = "'" + chosenCategoryShortName + "'";
+       	var homeHtmlToInsertIntoMainPage = insertProperty(homeHtml , "randomCategoryShortName", chosenCategoryShortName);
+      
+      	insertHtml("#main-content",homeHtmlToInsertIntoMainPage);
+    	},
+
+    	false); 
+	}
+	function chooseRandomCategory (categories) {
+  // Choose a random index into the array (from 0 inclusively until array length (exclusively))
+  		var randomArrayIndex = Math.floor(Math.random() * categories.length);
+
+  // return category object with that randomArrayIndex
+  		return categories[randomArrayIndex];
+	}
+
 
 	dc.loadMenuCategories = function () {
 		showLoading("#main-content");
@@ -82,6 +102,7 @@ $(function () {
 			function (categoriesTitleHtml) {
 				$ajaxUtils.sendGetRequest(categoryHtml,
 					function (categoryHtml) {
+						switchMenuToActive();
 						var categoriesViewHtml = 
 							buildCategoriesViewHtml(categories,
 													categoriesTitleHtml,
@@ -118,6 +139,7 @@ $(function () {
 				$ajaxUtils.sendGetRequest(
 					menuItemHtml,
 					function (menuItemHtml) {
+						switchMenuToActive();
 						var menuItemsViewHtml =
 							buildMenuItemsViewHtml(categoryMenuItems,
 													menuItemsTitleHtml,
